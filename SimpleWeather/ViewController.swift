@@ -33,7 +33,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         currentWeather = CurrentWeather()
         
-        print(CURRENT_WEATHER_URL)
          }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -41,7 +40,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         locationAuthStatus()
     }
     
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         locationAuthStatus()
     }
     
@@ -50,7 +49,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationAuthStatus() {
-        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse, (locationManager.location != nil) {
             currentLocation = locationManager.location
             Location.sharedInstance.latitude = currentLocation.coordinate.latitude
             Location.sharedInstance.longitude = currentLocation.coordinate.longitude
