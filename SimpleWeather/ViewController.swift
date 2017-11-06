@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
-    
+
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var currentTempLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
@@ -24,7 +24,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
@@ -32,15 +33,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         currentWeather = CurrentWeather()
         
-    }
-    
+        print(CURRENT_WEATHER_URL)
+         }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         locationAuthStatus()
     }
     
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization: CLAuthorizationStatus) {
         locationAuthStatus()
     }
     
@@ -49,22 +50,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationAuthStatus() {
-        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse, (locationManager.location != nil) {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
             currentLocation = locationManager.location
             Location.sharedInstance.latitude = currentLocation.coordinate.latitude
             Location.sharedInstance.longitude = currentLocation.coordinate.longitude
+            
             currentWeather.downloadWeatherDetails {
                 
                 DispatchQueue.main.async {
                     self.updateMainUI()
-                    
                 }
-                
             }
         } else {
-            
             locationManager.requestWhenInUseAuthorization()
-            
         }
     }
     
@@ -76,3 +74,4 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         currentWeatherImage.image = UIImage(named: currentWeather.weatherType)
     }
 }
+
