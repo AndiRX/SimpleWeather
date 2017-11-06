@@ -61,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				4B2A4C9B1FAFBF8300A1F623 /* AppDelegate.swift */,
+				4B2A4CB11FAFE6FE00A1F623 /* Location.swift */,
 				4B2A4C9D1FAFBF8300A1F623 /* ViewController.swift */,
 				4B2A4C9F1FAFBF8300A1F623 /* Main.storyboard */,
 				4B2A4CA21FAFBF8300A1F623 /* Assets.xcassets */,
@@ -68,7 +69,6 @@
 				4B2A4CA71FAFBF8300A1F623 /* Info.plist */,
 				4B2A4CAD1FAFDA0800A1F623 /* CurrentWeather.swift */,
 				4B2A4CAF1FAFDD9E00A1F623 /* Constants.swift */,
-				4B2A4CB11FAFE6FE00A1F623 /* Location.swift */,
 			);
 			path = SimpleWeather;
 			sourceTree = "<group>";
@@ -311,6 +311,7 @@
 				4B2A4CAC1FAFBF8300A1F623 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

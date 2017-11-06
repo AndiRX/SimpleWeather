@@ -6,7 +6,7 @@
 //  Copyright © 2017 Andi. All rights reserved.
 //
 
-import Foundation
+
 import CoreLocation
 
 class Location {
@@ -15,5 +15,5 @@ class Location {
     
     var latitude: Double!
     var longitude: Double!
-    
 }
+

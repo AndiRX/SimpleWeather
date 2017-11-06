@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class CurrentWeather {
     
@@ -52,21 +53,27 @@ class CurrentWeather {
     
     func downloadWeatherDetails(completed: @escaping DownloadComplete) {
         
-        let url = URL(string: CURRENT_WEATHER_URL)!
         let session = URLSession.shared
+        let url = URL(string: CURRENT_WEATHER_URL)!
+
         session.dataTask(with: url) { (data, response, error) in
+            
             if let responseData = data {
                 do {
                     let json = try JSONSerialization.jsonObject(with: responseData, options: JSONSerialization.ReadingOptions.allowFragments)
-                    print(json)
                     
+                    print(json)
                     if let dict = json as? Dictionary<String, AnyObject> {
+                    
+                        print("this is the dictionary \(dict)")
                         if let name = dict["name"] as? String {
                             self._cityName = name.capitalized
+                            print("city" + self._cityName)
                         }
                         if let weather = dict["weather"] as? [Dictionary<String, AnyObject>] {
                             if let main = weather[0]["main"] as? String {
                                 self._weatherType = main.capitalized
+                                print(self._weatherType)
                             }
                         }
                         if let main = dict["main"] as? Dictionary<String, AnyObject> {
@@ -74,12 +81,13 @@ class CurrentWeather {
                                 let kelvinToFahrenheitPreDivision = (currentTemperature * (9/5) - 459.67)
                                 let kelvinToFahrenheit = Double(round(10 * kelvinToFahrenheitPreDivision/10))
                                 self._currentTemp = kelvinToFahrenheit
+                                print(self._currentTemp)
                             }
                         }
                     }
-                    
+                    print(json)
                 } catch {
-                    print("Could not serialise")
+                    print("Could not serialize")
                 }
                 
                 

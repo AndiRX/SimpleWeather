@@ -20,26 +20,32 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     let locationManager = CLLocationManager()
     var currentLocation: CLLocation!
     
+    var currentWeather: CurrentWeather!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startMonitoringSignificantLocationChanges()
         
+        currentWeather = CurrentWeather()
         
-        
+        print(CURRENT_WEATHER_URL)
          }
-
-    func locationManager(_manager: CLLocationManager, didChangeAuthorization: CLAuthorizationStatus) {
-        locationAuthStatus()
-    }
-
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        locationAuthStatus()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization: CLAuthorizationStatus) {
+        locationAuthStatus()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         locationAuthStatus()
     }
     
@@ -48,9 +54,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             currentLocation = locationManager.location
             Location.sharedInstance.latitude = currentLocation.coordinate.latitude
             Location.sharedInstance.longitude = currentLocation.coordinate.longitude
+            
+            currentWeather.downloadWeatherDetails {
+                
+                DispatchQueue.main.async {
+                    self.updateMainUI()
+                }
+            }
         } else {
             locationManager.requestWhenInUseAuthorization()
         }
+    }
+    
+    func updateMainUI() {
+        dateLabel.text = currentWeather.date
+        currentTempLabel.text = "\(currentWeather.currentTemp)"
+        currentWeatherTypeLabel.text = currentWeather.weatherType
+        locationLabel.text = currentWeather.cityName
+        currentWeatherImage.image = UIImage(named: currentWeather.weatherType)
     }
 }
 
