@@ -52,9 +52,9 @@ class CurrentWeather {
     
     func downloadWeatherDetails(completed: @escaping DownloadComplete) {
         
-        let url = URL(string: CURRENT_WEATHER_URL)
+        let url = URL(string: CURRENT_WEATHER_URL)!
         let session = URLSession.shared
-        session.dataTask(with: url) { (date, response, error) in
+        session.dataTask(with: url) { (data, response, error) in
             if let responseData = data {
                 do {
                     let json = try JSONSerialization.jsonObject(with: responseData, options: JSONSerialization.ReadingOptions.allowFragments)
@@ -65,7 +65,7 @@ class CurrentWeather {
                 
                 
             }
-            .resume()
-        }
+            
+        } .resume()
     }
 }
